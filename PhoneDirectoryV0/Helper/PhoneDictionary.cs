@@ -9,13 +9,13 @@ public class PhoneDictionary
     private static string GetKey(string firstName, string lastName) =>
         $"{firstName} {lastName}".Trim().ToLower();
 
-    private static char[] GetChars(string key)
+    private static char[] GetChars(string lowerKey)
     {
-        var lowerKey = key.ToLower();
+        
         var firstChar = lowerKey.Length > 0 ? lowerKey[0] : '\0';
         var secondChar = lowerKey.Length > 1 ? lowerKey[1] : '\0';
         var thirdChar = lowerKey.Length > 2 ? lowerKey[2] : '\0';
-        return [firstChar, secondChar, thirdChar];
+        return new[] {firstChar, secondChar, thirdChar};
     }
     public void AddEntry(string firstName, string lastName, string phoneNumber)
     {
@@ -73,7 +73,7 @@ public class PhoneDictionary
             throw new ArgumentException("First name and last name cannot be null or empty.");
         
         var key = GetKey(firstName, lastName);
-        var chars = GetChars(key);
+        var chars = GetChars(key.ToLower());
 
         if (_phoneDirectory.TryGetValue(chars[0], out var existingDict1) &&
             existingDict1.TryGetValue(chars[1], out var existingDict2) &&
